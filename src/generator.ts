@@ -1,31 +1,24 @@
-import { TypeORMEntity } from "./parser";
 import path from "path";
 import * as utils from "./utils";
 import { DartModel } from "./dart-model";
+import { DartEntity, GeneratorOptions, TypeORMEntity } from "./types";
+import EventEmitter from "events";
 
-export interface GeneratorOptions {
-  out: string;
-  headers?: string[];
-  imports?: string[];
-  formatters: {
-    name?: Formatter;
-    filename?: Formatter;
-  };
-}
+export class DartModelGenerator extends EventEmitter {
+  private total = 0;
+  private loaded = 0;
 
-export interface DartEntity extends TypeORMEntity {
-  targetFile: string;
-  lazyImports: Set<DartEntity>;
-}
-
-export type Formatter = (val: string) => string;
-
-export class DartModelGenerator {
   private dartModel!: DartModel;
 
-  constructor(public options: GeneratorOptions) {}
+  constructor(public options: GeneratorOptions) {
+    super();
+  }
 
   async generate(entities: TypeORMEntity[]) {
+    // Update total
+    this.total = entities.length;
+    this.updateTotal();
+
     const dartEntities = entities.map((entity) => {
       const targetFileName = this.getFileName(entity.name);
 
@@ -53,10 +46,22 @@ export class DartModelGenerator {
     return Promise.all(dartEntities.map((entity) => this.writeEntity(entity)));
   }
 
+  private updateTotal() {
+    this.emit("update", this.total);
+  }
+
+  private onProgress(name: string) {
+    this.emit("progress", this.loaded, name);
+  }
+
   private writeEntity(entity: DartEntity) {
-    return new Promise<TypeORMEntity>((resolve, reject) => {
+    return new Promise<DartEntity>((resolve, reject) => {
       const content = this.dartModel.parse(entity);
       utils.writeFile(entity.targetFile, content);
+
+      // Update loaded
+      this.loaded++;
+      this.onProgress(entity.name);
 
       return resolve(entity);
     });

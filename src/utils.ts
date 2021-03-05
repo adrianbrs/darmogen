@@ -10,14 +10,6 @@ export function getWords(val: string) {
     .filter((w) => w);
 }
 
-export function upper(val: string) {
-  return val.toUpperCase();
-}
-
-export function lower(val: string) {
-  return val.toLowerCase();
-}
-
 export function camel(val: string) {
   return getWords(val)
     .map((w) => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase())

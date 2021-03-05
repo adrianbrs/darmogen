@@ -1,3 +1,5 @@
 node_modules/
 models/
+dist/
 entities.json
+.npmrc

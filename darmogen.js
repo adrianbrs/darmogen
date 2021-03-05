@@ -1,7 +1,6 @@
-import { Options } from "./main";
-import * as utils from "./utils";
+const utils = require("./src/utils")
 
-export default {
+module.exports = {
   parser: {
     aliases: {
       src: "{cwd}",
@@ -21,4 +20,4 @@ export default {
       filename: (name) => utils.kebab(name).toLowerCase() + ".model.dart",
     },
   },
-} as Options;
+};

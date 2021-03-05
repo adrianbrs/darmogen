@@ -2,77 +2,28 @@ import glob from "glob";
 import path from "path";
 import fs from "fs";
 import ts from "typescript";
-
-export interface EntityIdentifier {
-  decorator?: string;
-  extends?: string;
-  implements?: string;
-}
-
-export interface MemberType {
-  name: string;
-  importFile: string;
-  relativePath: string;
-  node: ts.Node & Record<string, any>;
-  [k: string]: any;
-}
-
-export interface ClassMember {
-  name: string;
-  type: MemberType;
-  node: ts.Node;
-}
-
-export interface EntityClass {
-  name: string;
-  parent: ImportedSource;
-  node: ts.Node;
-}
-
-export interface ImportedSource {
-  filepath: string;
-  elements: Record<string, EntityClass>;
-  src: ts.SourceFile;
-  imports: Record<string, string>;
-}
-
-export interface ParserOptions {
-  aliases: Record<string, string>;
-  cwd: string;
-  ext: string;
-  root: string;
-  identifier: EntityIdentifier;
-}
-
-export interface EntityModel {
-  name: string;
-  properties: ClassMember[];
-}
-
-export interface TypeORMEntity {
-  path: string;
-  name: string;
-  model: EntityModel;
-}
-
-export interface ImportElement {
-  name: string;
-  node: ts.Node;
-}
-
-export interface ImportClause {
-  filepath: string;
-  elements: ImportElement[];
-}
+import {
+  ClassMember,
+  EntityClass,
+  EntityModel,
+  ImportedSource,
+  ParserOptions,
+  TypeORMEntity,
+} from "./types";
+import EventEmitter from "events";
 
 enum TypeORMDecorators {
   EXCLUDE = "Exclude",
 }
 
-export class NestEntityParser {
+export class NestEntityParser extends EventEmitter {
+  private total = 0;
+  private loaded = 0;
+
   importedSources: Map<string, ImportedSource> = new Map();
 
   constructor(public options: ParserOptions) {
+    super();
     this.resolveAliases();
   }
 
@@ -82,6 +33,10 @@ export class NestEntityParser {
     const files = glob.sync(`**/*${source.ext}`, {
       cwd: source.cwd,
     });
+
+    // Update total
+    this.total = files.length;
+    this.init(files);
 
     return Promise.all(
       files.map((filepath) => {
@@ -100,9 +55,24 @@ export class NestEntityParser {
               model,
             }))
           );
+        }).then((models) => {
+          this.onModelsLoaded(models);
+          return models;
         });
       })
     ).then((models) => models.flat());
+  }
+
+  private init(files?: string[]) {
+    this.emit("init", this.total, files);
+  }
+
+  private onModelsLoaded(models: TypeORMEntity[]) {
+    this.emit("load", models);
+  }
+
+  private onProgress(name: string) {
+    this.emit("progress", this.loaded, name);
   }
 
   private resolveAliases() {
@@ -134,6 +104,14 @@ export class NestEntityParser {
         properties,
       } as EntityModel;
     });
+
+    // Update loaded
+    this.loaded++;
+    this.onProgress(
+      Object.values(importedSource.elements)
+        .map((el) => el.name)
+        .join(", ")
+    );
 
     return models;
   }

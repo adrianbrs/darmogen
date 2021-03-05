@@ -1,7 +1,12 @@
-import { DartEntity, Formatter } from "./generator";
-import { ClassMember, EntityModel, MemberType } from "./parser";
 import path from "path";
 import ts from "typescript";
+import {
+  ClassMember,
+  DartEntity,
+  EntityModel,
+  Formatter,
+  MemberType,
+} from "./types";
 import * as utils from "./utils";
 
 export interface DartModelOptions {
