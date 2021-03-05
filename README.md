@@ -1,3 +1,7 @@
+# Darmogen ![https://www.npmjs.com/package/@adrianbrs/darmogen](https://img.shields.io/npm/v/@adrianbrs/darmogen)
+
+## Generate Dart models from TypeORM entities
+
 ```bash
 .-,--.
 ' |   \ ,-. ,-. ,-,-. ,-. ,-. ,-. ,-.
@@ -13,24 +17,19 @@
 ├ Parsing    |========================================| 100% | 7/7 parsed files | (User)
 ├ Generating |========================================| 100% | 7/7 generated files | (User)
 │
-│─────────────────────────────────────────────────────────────────────────────────────────────┐
-│ Generated 7 models:                                                                         │
-├─────────────────────────────────────────────────────────────────────────────────────────────┤
-├ » Ban (../DartProject/lib/modules/api/ban/ban.model.dart)                                   │
-├ » Friendship (../DartProject/lib/modules/api/friendship/friendship.model.dart)              │
-├ » GlobalRole (../DartProject/lib/modules/api/global-roles/global-role.model.dart)           │
-├ » OAuthClient (../DartProject/lib/modules/api/oauth/oauth-client.model.dart)                │
-├ » RevokedToken (../DartProject/lib/modules/api/oauth/revoked-token.model.dart)              │
-├ » Role (../DartProject/lib/modules/api/roles/role.model.dart)                               │
-├ » User (../DartProject/lib/modules/api/user/user.model.dart)                                │
-└─────────────────────────────────────────────────────────────────────────────────────────────┘
+│─────────────────────────────────────────────────────────────────────────────────────┐
+│ Generated 7 models:                                                                 │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+├ » Ban (../DartProject/lib/modules/api/ban/ban.model.dart)                           │
+├ » Friendship (../DartProject/lib/modules/api/friendship/friendship.model.dart)      │
+├ » GlobalRole (../DartProject/lib/modules/api/global-roles/global-role.model.dart)   │
+├ » OAuthClient (../DartProject/lib/modules/api/oauth/oauth-client.model.dart)        │
+├ » RevokedToken (../DartProject/lib/modules/api/oauth/revoked-token.model.dart)      │
+├ » Role (../DartProject/lib/modules/api/roles/role.model.dart)                       │
+├ » User (../DartProject/lib/modules/api/user/user.model.dart)                        │
+└─────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-# Darmogen ![https://www.npmjs.com/package/@adrianbrs/darmogen](https://img.shields.io/npm/v/@adrianbrs/darmogen)
-
-## Generate Dart models from TypeORM entities
-
-<br/>
 <br/>
 
 ## Installation
@@ -41,14 +40,10 @@ yarn add -D @adrianbrs/darmogen
 npm install @adrianbrs/darmogen --save-dev
 ```
 
-<br/>
-
 ## Usage
 
 1. Create `darmogen.js` file in the project root with Darmogen options.
 2. Execute `yarn darmogen` or `npx darmogen` to generate models on the output path.
-
-<br/>
 
 ## Examples
 
@@ -187,8 +182,6 @@ abstract class Model {
 
 ```
 
-<br/>
-
 ## Available options
 
 | Option               | Type     | Required | Description                                                                                                                                      |
@@ -200,8 +193,6 @@ abstract class Model {
 | generator.out        | string   | yes      | Output Dart models folder                                                                                                                        |
 | generator.imports    | string[] | no       | Manual Dart imports **relative to** output folder                                                                                                |
 | generator.formatters | Object   | no       | Object with functions, which are given a string and must return a string, to format class and file names. `{name: Function, filename: Function}` |
-
-<br/>
 
 ## Links
 

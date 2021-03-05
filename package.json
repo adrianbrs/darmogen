@@ -11,6 +11,19 @@
     "prepublish": "yarn build",
     "postbuild": "cp -r ./src/headers ./dist && cp package.json ./dist && cp README.md ./dist"
   },
+  "keywords": [
+    "dart",
+    "models",
+    "generate",
+    "typeorm",
+    "nest",
+    "entities",
+    "entity",
+    "cli",
+    "flutter",
+    "app",
+    "api"
+  ],
   "repository": {
     "type": "git",
     "url": "git@github.com:adrianbrs/darmogen.git"
