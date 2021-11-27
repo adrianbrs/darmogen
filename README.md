@@ -1,4 +1,4 @@
-# Darmogen ![https://www.npmjs.com/package/@adrianbrs/darmogen](https://img.shields.io/npm/v/@adrianbrs/darmogen)
+# Darmogen [![NPM Package](https://img.shields.io/npm/v/@adrianbrs/darmogen)](https://www.npmjs.com/package/@adrianbrs/darmogen)
 
 ## Generate Dart models from TypeORM entities
 
